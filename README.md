@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🛡️ Smart Safety Network
 
 A real-time emergency response platform designed to connect women in distress with trusted contacts, nearby volunteers, and emergency services. The system uses live GPS location tracking and intelligent alert mechanisms to support faster emergency response and improve personal safety.
@@ -120,3 +121,7 @@ https://linkedin.com/in/m-thanusha-muthu-7600972a0
 ## 📄 License
 
 This project is intended for educational, academic, and demonstration purposes.
+=======
+# smart-safety-network
+Real-time emergency safety network with GPS location tracking, SOS alerts, trusted contacts, nearby volunteers, authorities, and secure Telegram emergency notifications.
+>>>>>>> df35b00aef06db2f2e9049a5d85cb731a7753909
