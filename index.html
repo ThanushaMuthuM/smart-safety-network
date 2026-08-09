@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-git grep "8356231866"<html lang="en">
+git grep "BOT_TOKEN"<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -488,9 +488,58 @@ git grep "8356231866"<html lang="en">
 </div>
 
 <script>
-    // ----------------------------- TELEGRAM CONFIGURATION ---------------------------------
-    const BOT_TOKEN = "....";
-    const CHAT_ID = "....";
+   async function sendTelegramMessage(lat, lng, mapsLink) {
+    try {
+        const response = await fetch("/api/send-telegram", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                lat: lat,
+                lng: lng,
+                mapsLink: mapsLink
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            addBroadcastMsg(
+                "✅ Telegram emergency message sent successfully."
+            );
+
+            addLogEntry(
+                "Telegram SOS message sent successfully."
+            );
+
+            return true;
+        } else {
+            addBroadcastMsg(
+                `❌ Telegram error: ${result.error || "Unknown error"}`
+            );
+
+            addLogEntry(
+                `Telegram send failed: ${result.error || "Unknown error"}`
+            );
+
+            return false;
+        }
+
+    } catch (error) {
+        console.error("Telegram error:", error);
+
+        addBroadcastMsg(
+            "❌ Failed to connect to Telegram server."
+        );
+
+        addLogEntry(
+            `Telegram exception: ${error.message}`
+        );
+
+        return false;
+    }
+}
 
     // ----------------------------- DATA STORAGE ---------------------------------
     let trustedContacts = [];    // each: { id, name, phone, isPrimary }
@@ -828,38 +877,103 @@ git grep "8356231866"<html lang="en">
         }
     }
 
-    async function performSOS() {
-        if (!currentLat || !currentLng) return;
-        const googleMapsLink = `https://www.google.com/maps?q=${currentLat},${currentLng}`;
-        const locationStr = `${currentLat.toFixed(6)}, ${currentLng.toFixed(6)}`;
-        modalLocationText.innerHTML = `📍 Lat: ${currentLat.toFixed(6)}<br>📍 Lng: ${currentLng.toFixed(6)}<br>🔗 <a href="${googleMapsLink}" target="_blank">Open Maps</a>`;
-        sosModal.classList.add("active");
-        addLogEntry(`🚨 SOS ACTIVATED! Location: ${locationStr}`, true);
-        addBroadcastMsg(`🔥 SOS TRIGGERED! Sending Telegram and opening SMS for primary contact.`);
-        
-        // Telegram
-        await sendTelegramMessage(currentLat, currentLng, googleMapsLink);
-        
-        // SMS to primary contact
-        const primaryContact = trustedContacts.find(c => c.isPrimary);
-        if (primaryContact) {
-            openSMSComposer(primaryContact.phone, primaryContact.name);
-            addBroadcastMsg(`📱 SMS draft opened for primary contact: ${primaryContact.name} (${primaryContact.phone})`);
-        } else {
-            addBroadcastMsg(`⚠️ No primary contact set. No SMS opened.`);
-        }
-        
-        // Simulate alerts for other contacts, volunteers, authorities
-        trustedContacts.forEach(c => { if (c.id !== primaryContact?.id) addBroadcastMsg(`📱 ALERT simulated for ${c.name} (${c.phone})`); });
-        volunteers.forEach(v => addBroadcastMsg(`🧑‍🚒 Volunteer ${v.name} notified (simulated).`));
-        authorities.forEach(a => addBroadcastMsg(`🏛️ ${a.name} alerted (simulated).`));
-        
-        if (userMarker) userMarker.bindPopup(`🚨 <b>SOS ACTIVE</b><br>${locationStr}`).openPopup();
-        addBroadcastMsg(`✅ Emergency broadcast complete.`);
-        addLogEntry(`SOS completed.`);
-        setTimeout(() => alert(`SOS sent!\nLocation: ${locationStr}\nTelegram sent. SMS opened for primary contact.`), 200);
+   async function performSOS() {
+    if (!currentLat || !currentLng) return;
+
+    const googleMapsLink =
+        `https://www.google.com/maps?q=${currentLat},${currentLng}`;
+
+    const locationStr =
+        `${currentLat.toFixed(6)}, ${currentLng.toFixed(6)}`;
+
+    modalLocationText.innerHTML =
+        `📍 Lat: ${currentLat.toFixed(6)}
+        <br>
+        📍 Lng: ${currentLng.toFixed(6)}
+        <br>
+        🔗 <a href="${googleMapsLink}" target="_blank">
+        Open Maps
+        </a>`;
+
+    sosModal.classList.add("active");
+
+    addLogEntry(
+        `🚨 SOS ACTIVATED! Location: ${locationStr}`
+    );
+
+    addBroadcastMsg(
+        "🔥 SOS TRIGGERED! Sending Telegram and opening SMS for primary contact."
+    );
+
+    // Send Telegram through Vercel backend
+    await sendTelegramMessage(
+        currentLat,
+        currentLng,
+        googleMapsLink
+    );
+
+    // SMS to primary contact
+    const primaryContact =
+        trustedContacts.find(c => c.isPrimary);
+
+    if (primaryContact) {
+        openSMSComposer(
+            primaryContact.phone,
+            primaryContact.name
+        );
+
+        addBroadcastMsg(
+            `📱 SMS draft opened for primary contact: ${primaryContact.name} (${primaryContact.phone})`
+        );
+    } else {
+        addBroadcastMsg(
+            "⚠️ No primary contact set. No SMS opened."
+        );
     }
 
+    // Simulated alerts
+    trustedContacts.forEach(c => {
+        if (c.id !== primaryContact?.id) {
+            addBroadcastMsg(
+                `📱 ALERT simulated for ${c.name} (${c.phone})`
+            );
+        }
+    });
+
+    volunteers.forEach(v => {
+        addBroadcastMsg(
+            `🧑‍🚒 Volunteer ${v.name} notified (simulated).`
+        );
+    });
+
+    authorities.forEach(a => {
+        addBroadcastMsg(
+            `🏛️ ${a.name} alerted (simulated).`
+        );
+    });
+
+    if (userMarker) {
+        userMarker
+            .bindPopup(
+                `<b>SOS ACTIVE</b><br>${locationStr}`
+            )
+            .openPopup();
+    }
+
+    addBroadcastMsg(
+        "✅ Emergency broadcast complete."
+    );
+
+    addLogEntry(
+        "SOS completed."
+    );
+
+    setTimeout(() => {
+        alert(
+            `SOS sent!\nLocation: ${locationStr}\nTelegram sent. SMS opened for primary contact.`
+        );
+    }, 200);
+}
     // Storage
     function saveData() {
         localStorage.setItem("trustedContacts", JSON.stringify(trustedContacts));
