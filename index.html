@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-git grep "BOT_TOKEN"<html lang="en">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Smart Safety Network | Full Customizable Emergency System</title>
     <!-- Leaflet CSS & JS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+    </script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -48,7 +49,7 @@ git grep "BOT_TOKEN"<html lang="en">
             background: white;
             padding: 15px 25px;
             border-radius: 40px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
         }
 
         .badge {
@@ -95,7 +96,7 @@ git grep "BOT_TOKEN"<html lang="en">
             background: white;
             border-radius: 32px;
             overflow: hidden;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2);
             margin-bottom: 22px;
         }
 
@@ -121,7 +122,7 @@ git grep "BOT_TOKEN"<html lang="en">
             border-radius: 28px;
             padding: 20px;
             margin-bottom: 22px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
             transition: 0.2s;
             border: 1px solid #ffe0eb;
         }
@@ -147,7 +148,7 @@ git grep "BOT_TOKEN"<html lang="en">
             color: white;
             border-radius: 60px;
             cursor: pointer;
-            box-shadow: 0 12px 20px rgba(208,0,0,0.3);
+            box-shadow: 0 12px 20px rgba(208, 0, 0, 0.3);
             transition: 0.15s linear;
             display: flex;
             justify-content: center;
@@ -160,12 +161,16 @@ git grep "BOT_TOKEN"<html lang="en">
             background: #b91c2c;
         }
 
-        .contact-list, .volunteer-list, .authority-list {
+        .contact-list,
+        .volunteer-list,
+        .authority-list {
             list-style: none;
             margin-bottom: 15px;
         }
 
-        .contact-item, .volunteer-item, .authority-item {
+        .contact-item,
+        .volunteer-item,
+        .authority-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -177,11 +182,16 @@ git grep "BOT_TOKEN"<html lang="en">
             gap: 8px;
         }
 
-        .contact-info, .vol-info, .auth-info {
+        .contact-info,
+        .vol-info,
+        .auth-info {
             flex: 1;
         }
 
-        .btn-call, .btn-sms, .btn-set-primary, .btn-delete {
+        .btn-call,
+        .btn-sms,
+        .btn-set-primary,
+        .btn-delete {
             background: #2c7da0;
             border: none;
             padding: 6px 12px;
@@ -296,7 +306,7 @@ git grep "BOT_TOKEN"<html lang="en">
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(3px);
             display: flex;
             align-items: center;
@@ -317,7 +327,7 @@ git grep "BOT_TOKEN"<html lang="en">
             border-radius: 48px;
             padding: 30px 24px;
             text-align: center;
-            box-shadow: 0 30px 40px rgba(0,0,0,0.3);
+            box-shadow: 0 30px 40px rgba(0, 0, 0, 0.3);
             border-top: 8px solid #ff3366;
         }
         .modal-content i {
@@ -374,722 +384,662 @@ git grep "BOT_TOKEN"<html lang="en">
     </style>
 </head>
 <body>
-<div class="dashboard">
-    <div class="header">
-        <h1><i class="fas fa-shield-alt"></i> Smart Safety Network</h1>
-        <div class="location-control">
-            <span class="loc-status" id="locStatusIcon"><i class="fas fa-map-marker-alt"></i> Waiting...</span>
-            <button id="requestLocationBtn" class="loc-btn"><i class="fas fa-location-arrow"></i> Get Location</button>
-            <div class="badge"><i class="fas fa-bell"></i> LIVE READY</div>
-        </div>
-    </div>
-
-    <div class="grid-2col">
-        <!-- LEFT COLUMN -->
-        <div>
-            <div class="map-card">
-                <div id="map"></div>
-                <div class="location-info">
-                    <span><i class="fas fa-map-marker-alt"></i> <strong>Real-time location:</strong> <span id="liveLatLng">--</span></span>
-                    <span><i class="fas fa-clock"></i> Last update: <span id="locTime">--</span></span>
-                    <span><i class="fas fa-chart-line"></i> Accuracy: <span id="accuracy">--</span> m</span>
-                </div>
-            </div>
-
-            <button class="emergency-btn" id="panicButton">
-                <i class="fas fa-bell"></i> SOS EMERGENCY <i class="fas fa-female"></i>
-            </button>
-
-            <div class="card">
-                <h3><i class="fas fa-history"></i> Incident Logs (File Storage)</h3>
-                <div id="logContainer" class="log-area">
-                    <div class="log-entry">✨ System ready. Click "Get Location" to enable GPS.</div>
-                </div>
-                <div class="log-actions">
-                    <button id="exportLogBtn" class="secondary-btn"><i class="fas fa-download"></i> Download Log File</button>
-                    <button id="clearLogBtn" class="secondary-btn"><i class="fas fa-trash-alt"></i> Clear Logs</button>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3><i class="fas fa-broadcast-tower"></i> Emergency Broadcast Feed</h3>
-                <div id="broadcastFeed" style="max-height: 180px; overflow-y: auto; background: #fff5f9; border-radius: 20px; padding: 12px;">
-                    <div class="feed-msg">📡 Enable location to activate full safety features.</div>
-                </div>
+    <div class="dashboard">
+        <div class="header">
+            <h1><i class="fas fa-shield-alt"></i> Smart Safety Network</h1>
+            <div class="location-control">
+                <span class="loc-status" id="locStatusIcon"><i class="fas fa-map-marker-alt"></i> Waiting...</span>
+                <button id="requestLocationBtn" class="loc-btn"><i class="fas fa-location-arrow"></i> Get Location</button>
+                <div class="badge"><i class="fas fa-bell"></i> LIVE READY</div>
             </div>
         </div>
 
-        <!-- RIGHT COLUMN: MANAGEABLE LISTS -->
-        <div>
-            <!-- Trusted Contacts -->
-            <div class="card">
-                <h3><i class="fas fa-heart"></i> Trusted Contacts <span style="font-size:0.8rem;">(⭐ = primary)</span></h3>
-                <ul class="contact-list" id="trustedContactsList"></ul>
-                <div class="add-form">
-                    <input type="text" id="newContactName" placeholder="Name" />
-                    <input type="text" id="newContactPhone" placeholder="Phone" />
-                    <button id="addContactBtn">+ Add Contact</button>
-                </div>
-                <small><i class="fas fa-info-circle"></i> SOS will open SMS for the primary contact.</small>
-            </div>
-
-            <!-- Nearby Volunteers -->
-            <div class="card">
-                <h3><i class="fas fa-hands-helping"></i> Nearby Volunteers 
-                    <button id="refreshVolunteersBtn" class="vol-refresh"><i class="fas fa-sync-alt"></i> Generate Random</button>
-                </h3>
-                <ul class="volunteer-list" id="volunteerList"></ul>
-                <div class="add-form">
-                    <input type="text" id="newVolName" placeholder="Name" />
-                    <input type="text" id="newVolPhone" placeholder="Phone" />
-                    <input type="text" id="newVolLat" placeholder="Latitude" style="width: 100px;" />
-                    <input type="text" id="newVolLng" placeholder="Longitude" style="width: 100px;" />
-                    <button id="addVolunteerBtn">+ Add</button>
-                    <button id="useCurrentLocVol" class="loc-btn" style="background:#6c757d;">Use My Location</button>
-                </div>
-                <small>📍 Distance calculated from your current location.</small>
-            </div>
-
-            <!-- Authorities & Helpline -->
-            <div class="card">
-                <h3><i class="fas fa-landmark"></i> Authorities & Helpline</h3>
-                <ul class="authority-list" id="authoritiesList"></ul>
-                <div class="add-form">
-                    <input type="text" id="newAuthName" placeholder="Name" />
-                    <input type="text" id="newAuthPhone" placeholder="Phone" />
-                    <input type="text" id="newAuthDesc" placeholder="Description" />
-                    <button id="addAuthorityBtn">+ Add Authority</button>
-                </div>
-                <small>🚔 One-touch call + SOS alerts them with your coordinates.</small>
-            </div>
-        </div>
-    </div>
-    <footer>🔒 Real-time location used only for emergency response. Telegram bot sends your location to the configured chat.</footer>
-</div>
-
-<!-- Modal for SOS confirmation -->
-<div id="sosModal" class="modal-overlay">
-    <div class="modal-content">
-        <i class="fas fa-exclamation-triangle"></i>
-        <h2>🚨 EMERGENCY SOS ACTIVATED</h2>
-        <p>Your current location has been shared with:</p>
-        <ul style="text-align: left; margin: 10px 0;">
-            <li>✔️ Trusted Contacts (simulated alerts + SMS for primary)</li>
-            <li>✔️ Nearby Volunteers (simulated alerts)</li>
-            <li>✔️ Authorities (simulated alerts)</li>
-            <li>✔️ Telegram Bot (real message sent)</li>
-        </ul>
-        <div class="modal-location" id="modalLocationText">📍 Latitude: --, Longitude: --</div>
-        <p><strong>📱 SMS draft for primary contact opened. Telegram message sent to your chat.</strong></p>
-        <div class="modal-buttons">
-            <button class="modal-btn ok" id="closeModalBtn">I Understand</button>
-        </div>
-    </div>
-</div>
-
-<script>
-  async function sendTelegramMessage(lat, lng, mapsLink) {
-    try {
-        const response = await fetch("/api/send-telegram", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                lat: lat,
-                lng: lng,
-                mapsLink: mapsLink
-            })
-        });
-
-        const result = await response.json();
-
-        if (response.ok && result.success) {
-            addBroadcastMsg("✅ Telegram SOS message sent successfully.");
-            addLogEntry("Telegram SOS message sent successfully.");
-        } else {
-            addBroadcastMsg(
-                `❌ Telegram error: ${result.error || "Failed to send message"}`
-            );
-            addLogEntry(
-                `Telegram send failed: ${result.error || "Unknown error"}`
-            );
-        }
-
-    } catch (error) {
-        console.error("Telegram error:", error);
-
-        addBroadcastMsg(
-            `❌ Telegram connection failed: ${error.message}`
-        );
-
-        addLogEntry(
-            `Telegram connection failed: ${error.message}`
-        );
-    }
-}
-    // ----------------------------- DATA STORAGE ---------------------------------
-    let trustedContacts = [];    // each: { id, name, phone, isPrimary }
-    let volunteers = [];         // each: { id, name, phone, lat, lng }
-    let authorities = [];        // each: { id, name, phone, description }
-
-    // ----------------------------- GLOBALS ---------------------------------
-    let map;
-    let userMarker = null;
-    let currentLat = null, currentLng = null;
-    let watchId = null;
-    let volunteerMarkers = [];
-    let logEntries = [];
-    let broadcastFeedMsgs = [];
-
-    // DOM elements
-    const liveLatLngSpan = document.getElementById("liveLatLng");
-    const locTimeSpan = document.getElementById("locTime");
-    const accuracySpan = document.getElementById("accuracy");
-    const trustedContainer = document.getElementById("trustedContactsList");
-    const volunteerContainer = document.getElementById("volunteerList");
-    const authoritiesContainer = document.getElementById("authoritiesList");
-    const logContainer = document.getElementById("logContainer");
-    const broadcastFeedDiv = document.getElementById("broadcastFeed");
-    const panicBtn = document.getElementById("panicButton");
-    const exportBtn = document.getElementById("exportLogBtn");
-    const clearLogBtn = document.getElementById("clearLogBtn");
-    const refreshVolBtn = document.getElementById("refreshVolunteersBtn");
-    const requestLocationBtn = document.getElementById("requestLocationBtn");
-    const locStatusIcon = document.getElementById("locStatusIcon");
-    const sosModal = document.getElementById("sosModal");
-    const modalLocationText = document.getElementById("modalLocationText");
-    const closeModalBtn = document.getElementById("closeModalBtn");
-
-    // Helper: distance between two coordinates (km)
-    function getDistanceFromLatLon(lat1, lon1, lat2, lon2) {
-        const R = 6371;
-        const dLat = (lat2 - lat1) * Math.PI / 180;
-        const dLon = (lon2 - lon1) * Math.PI / 180;
-        const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                  Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                  Math.sin(dLon/2) * Math.sin(dLon/2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        return R * c;
-    }
-
-    // Generate random volunteers around current location
-    function generateRandomVolunteers(baseLat, baseLng, count = 6) {
-        const newVols = [];
-        const names = ["Priya Sharma", "Anjali Nair", "Kavya Reddy", "Meera Iyer", "Divya Menon", "Riya Sen", "Aditi Kaur", "Sneha Pillai"];
-        for (let i = 0; i < count; i++) {
-            const latOffset = (Math.random() - 0.5) * 0.09;
-            const lngOffset = (Math.random() - 0.5) * 0.09;
-            let volLat = baseLat + latOffset;
-            let volLng = baseLng + lngOffset;
-            const nameIdx = i % names.length;
-            const phone = `+91 ${Math.floor(7000000000 + Math.random() * 300000000)}`;
-            newVols.push({
-                id: Date.now() + Math.random() + i,
-                name: names[nameIdx] + (i+1),
-                phone: phone,
-                lat: volLat,
-                lng: volLng
-            });
-        }
-        return newVols;
-    }
-
-    // Update volunteer UI + map markers
-    function updateVolunteersUIAndMap() {
-        if (!currentLat || !currentLng) return;
-        // Remove old markers
-        volunteerMarkers.forEach(marker => map.removeLayer(marker));
-        volunteerMarkers = [];
-        
-        const volunteersWithDist = volunteers.map(v => {
-            const dist = getDistanceFromLatLon(currentLat, currentLng, v.lat, v.lng);
-            return { ...v, distance: dist };
-        }).sort((a,b) => a.distance - b.distance);
-        
-        volunteerContainer.innerHTML = "";
-        if (volunteersWithDist.length === 0) {
-            volunteerContainer.innerHTML = "<li>No volunteers. Add some or generate random.</li>";
-        } else {
-            volunteersWithDist.forEach(v => {
-                const li = document.createElement("li");
-                li.className = "volunteer-item";
-                li.innerHTML = `
-                    <div class="vol-info">
-                        <strong>${v.name}</strong><br>
-                        <span style="font-size:0.7rem;"><i class="fas fa-phone-alt"></i> ${v.phone}</span>
-                        <span class="distance-badge">${v.distance.toFixed(2)} km</span>
+        <div class="grid-2col">
+            <!-- LEFT COLUMN -->
+            <div>
+                <div class="map-card">
+                    <div id="map"></div>
+                    <div class="location-info">
+                        <span><i class="fas fa-map-marker-alt"></i> <strong>Real-time location:</strong> <span id="liveLatLng">--</span></span>
+                        <span><i class="fas fa-clock"></i> Last update: <span id="locTime">--</span></span>
+                        <span><i class="fas fa-chart-line"></i> Accuracy: <span id="accuracy">--</span> m</span>
                     </div>
-                    <div>
-                        <button class="btn-call" data-phone="${v.phone}" data-name="${v.name}"><i class="fas fa-phone"></i> Call</button>
-                        <button class="btn-delete" data-id="${v.id}" data-type="volunteer"><i class="fas fa-trash"></i> Del</button>
+                </div>
+
+                <button class="emergency-btn" id="panicButton">
+                    <i class="fas fa-bell"></i> SOS EMERGENCY <i class="fas fa-female"></i>
+                </button>
+
+                <div class="card">
+                    <h3><i class="fas fa-history"></i> Incident Logs (File Storage)</h3>
+                    <div id="logContainer" class="log-area">
+                        <div class="log-entry">✨ System ready. Click "Get Location" to enable GPS.</div>
                     </div>
-                `;
-                volunteerContainer.appendChild(li);
-                // Call button
-                const callBtn = li.querySelector(".btn-call");
-                callBtn.addEventListener("click", () => initiateCall(v.phone, v.name, "volunteer"));
-                // Delete button
-                const delBtn = li.querySelector(".btn-delete");
-                delBtn.addEventListener("click", () => deleteItem("volunteer", v.id));
-                
-                // Add marker
-                const marker = L.marker([v.lat, v.lng]).bindPopup(`🧑‍🤝‍🧑 <b>${v.name}</b><br>📞 ${v.phone}<br>🚶 ${v.distance.toFixed(2)} km away`);
-                marker.addTo(map);
-                volunteerMarkers.push(marker);
-            });
-        }
-    }
+                    <div class="log-actions">
+                        <button id="exportLogBtn" class="secondary-btn"><i class="fas fa-download"></i> Download Log File</button>
+                        <button id="clearLogBtn" class="secondary-btn"><i class="fas fa-trash-alt"></i> Clear Logs</button>
+                    </div>
+                </div>
 
-    // Update trusted contacts UI
-    function updateTrustedContactsUI() {
-        trustedContainer.innerHTML = "";
-        if (trustedContacts.length === 0) {
-            trustedContainer.innerHTML = "<li>No contacts. Add a trusted contact.</li>";
+                <div class="card">
+                    <h3><i class="fas fa-broadcast-tower"></i> Emergency Broadcast Feed</h3>
+                    <div id="broadcastFeed" style="max-height: 180px; overflow-y: auto; background: #fff5f9; border-radius: 20px; padding: 12px;">
+                        <div class="feed-msg">📡 Enable location to activate full safety features.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: MANAGEABLE LISTS -->
+            <div>
+                <!-- Trusted Contacts -->
+                <div class="card">
+                    <h3><i class="fas fa-heart"></i> Trusted Contacts <span style="font-size:0.8rem;">(⭐ = primary)</span></h3>
+                    <ul class="contact-list" id="trustedContactsList"></ul>
+                    <div class="add-form">
+                        <input type="text" id="newContactName" placeholder="Name" />
+                        <input type="text" id="newContactPhone" placeholder="Phone" />
+                        <button id="addContactBtn">+ Add Contact</button>
+                    </div>
+                    <small><i class="fas fa-info-circle"></i> SOS will open SMS for the primary contact.</small>
+                </div>
+
+                <!-- Nearby Volunteers -->
+                <div class="card">
+                    <h3><i class="fas fa-hands-helping"></i> Nearby Volunteers
+                        <button id="refreshVolunteersBtn" class="vol-refresh"><i class="fas fa-sync-alt"></i> Generate Random</button>
+                    </h3>
+                    <ul class="volunteer-list" id="volunteerList"></ul>
+                    <div class="add-form">
+                        <input type="text" id="newVolName" placeholder="Name" />
+                        <input type="text" id="newVolPhone" placeholder="Phone" />
+                        <input type="text" id="newVolLat" placeholder="Latitude" style="width: 100px;" />
+                        <input type="text" id="newVolLng" placeholder="Longitude" style="width: 100px;" />
+                        <button id="addVolunteerBtn">+ Add</button>
+                        <button id="useCurrentLocVol" class="loc-btn" style="background:#6c757d;">Use My Location</button>
+                    </div>
+                    <small>📍 Distance calculated from your current location.</small>
+                </div>
+
+                <!-- Authorities & Helpline -->
+                <div class="card">
+                    <h3><i class="fas fa-landmark"></i> Authorities & Helpline</h3>
+                    <ul class="authority-list" id="authoritiesList"></ul>
+                    <div class="add-form">
+                        <input type="text" id="newAuthName" placeholder="Name" />
+                        <input type="text" id="newAuthPhone" placeholder="Phone" />
+                        <input type="text" id="newAuthDesc" placeholder="Description" />
+                        <button id="addAuthorityBtn">+ Add Authority</button>
+                    </div>
+                    <small>🚔 One-touch call + SOS alerts them with your coordinates.</small>
+                </div>
+            </div>
+        </div>
+        <footer>🔒 Real-time location used only for emergency response. All alerts are local and private.</footer>
+    </div>
+
+    <!-- Modal for SOS confirmation -->
+    <div id="sosModal" class="modal-overlay">
+        <div class="modal-content">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h2>🚨 EMERGENCY SOS ACTIVATED</h2>
+            <p>Your current location has been shared with:</p>
+            <ul style="text-align: left; margin: 10px 0;">
+                <li>✔️ Trusted Contacts (simulated alerts + SMS for primary)</li>
+                <li>✔️ Nearby Volunteers (simulated alerts)</li>
+                <li>✔️ Authorities (simulated alerts)</li>
+            </ul>
+            <div class="modal-location" id="modalLocationText">📍 Latitude: --, Longitude: --</div>
+            <p><strong>📱 SMS draft for primary contact opened.</strong></p>
+            <div class="modal-buttons">
+                <button class="modal-btn ok" id="closeModalBtn">I Understand</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ----------------------------- DATA STORAGE ---------------------------------
+        let trustedContacts = []; // each: { id, name, phone, isPrimary }
+        let volunteers = []; // each: { id, name, phone, lat, lng }
+        let authorities = []; // each: { id, name, phone, description }
+
+        // ----------------------------- GLOBALS ---------------------------------
+        let map;
+        let userMarker = null;
+        let currentLat = null,
+            currentLng = null;
+        let watchId = null;
+        let volunteerMarkers = [];
+        let logEntries = [];
+        let broadcastFeedMsgs = [];
+
+        // DOM elements
+        const liveLatLngSpan = document.getElementById("liveLatLng");
+        const locTimeSpan = document.getElementById("locTime");
+        const accuracySpan = document.getElementById("accuracy");
+        const trustedContainer = document.getElementById("trustedContactsList");
+        const volunteerContainer = document.getElementById("volunteerList");
+        const authoritiesContainer = document.getElementById("authoritiesList");
+        const logContainer = document.getElementById("logContainer");
+        const broadcastFeedDiv = document.getElementById("broadcastFeed");
+        const panicBtn = document.getElementById("panicButton");
+        const exportBtn = document.getElementById("exportLogBtn");
+        const clearLogBtn = document.getElementById("clearLogBtn");
+        const refreshVolBtn = document.getElementById("refreshVolunteersBtn");
+        const requestLocationBtn = document.getElementById("requestLocationBtn");
+        const locStatusIcon = document.getElementById("locStatusIcon");
+        const sosModal = document.getElementById("sosModal");
+        const modalLocationText = document.getElementById("modalLocationText");
+        const closeModalBtn = document.getElementById("closeModalBtn");
+
+        // Helper: distance between two coordinates (km)
+        function getDistanceFromLatLon(lat1, lon1, lat2, lon2) {
+            const R = 6371;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
         }
-        trustedContacts.forEach(contact => {
-            const li = document.createElement("li");
-            li.className = "contact-item";
-            li.innerHTML = `
-                <div class="contact-info">
-                    ${contact.isPrimary ? '<i class="fas fa-star primary-star"></i>' : ''}
-                    <strong>${contact.name}</strong><br>${contact.phone}
-                </div>
-                <div>
-                    <button class="btn-call" data-phone="${contact.phone}" data-name="${contact.name}"><i class="fas fa-phone"></i> Call</button>
-                    <button class="btn-sms" data-phone="${contact.phone}" data-name="${contact.name}"><i class="fas fa-envelope"></i> Send Location</button>
-                    ${!contact.isPrimary ? `<button class="btn-set-primary" data-id="${contact.id}"><i class="fas fa-star"></i> Set Primary</button>` : ''}
-                    <button class="btn-delete" data-id="${contact.id}" data-type="contact"><i class="fas fa-trash"></i> Del</button>
-                </div>
-            `;
-            trustedContainer.appendChild(li);
-            // Call
-            li.querySelector(".btn-call")?.addEventListener("click", () => initiateCall(contact.phone, contact.name, "trusted"));
-            // Send Location SMS
-            li.querySelector(".btn-sms")?.addEventListener("click", () => openSMSComposer(contact.phone, contact.name));
-            // Set primary
-            const setPrimaryBtn = li.querySelector(".btn-set-primary");
-            if (setPrimaryBtn) {
-                setPrimaryBtn.addEventListener("click", () => setPrimaryContact(contact.id));
+
+        // Generate random volunteers around current location
+        function generateRandomVolunteers(baseLat, baseLng, count = 6) {
+            const newVols = [];
+            const names = ["Priya Sharma", "Anjali Nair", "Kavya Reddy", "Meera Iyer", "Divya Menon", "Riya Sen",
+                "Aditi Kaur", "Sneha Pillai"
+            ];
+            for (let i = 0; i < count; i++) {
+                const latOffset = (Math.random() - 0.5) * 0.09;
+                const lngOffset = (Math.random() - 0.5) * 0.09;
+                let volLat = baseLat + latOffset;
+                let volLng = baseLng + lngOffset;
+                const nameIdx = i % names.length;
+                const phone = `+91 ${Math.floor(7000000000 + Math.random() * 300000000)}`;
+                newVols.push({
+                    id: Date.now() + Math.random() + i,
+                    name: names[nameIdx] + (i + 1),
+                    phone: phone,
+                    lat: volLat,
+                    lng: volLng
+                });
             }
-            // Delete
-            li.querySelector(".btn-delete")?.addEventListener("click", () => deleteItem("contact", contact.id));
-        });
-    }
-
-    // Update authorities UI
-    function updateAuthoritiesUI() {
-        authoritiesContainer.innerHTML = "";
-        if (authorities.length === 0) {
-            authoritiesContainer.innerHTML = "<li>No authorities. Add one.</li>";
+            return newVols;
         }
-        authorities.forEach(auth => {
-            const li = document.createElement("li");
-            li.className = "authority-item";
-            li.innerHTML = `
-                <div class="auth-info">
-                    <strong>${auth.name}</strong><br>${auth.description ? auth.description + " | " : ""}${auth.phone}
-                </div>
-                <div>
-                    <button class="btn-call" data-phone="${auth.phone}" data-name="${auth.name}"><i class="fas fa-phone"></i> Call</button>
-                    <button class="btn-delete" data-id="${auth.id}" data-type="authority"><i class="fas fa-trash"></i> Del</button>
-                </div>
-            `;
-            authoritiesContainer.appendChild(li);
-            li.querySelector(".btn-call")?.addEventListener("click", () => initiateCall(auth.phone, auth.name, "authority"));
-            li.querySelector(".btn-delete")?.addEventListener("click", () => deleteItem("authority", auth.id));
-        });
-    }
 
-    // CRUD operations
-    function addTrustedContact(name, phone) {
-        if (!name || !phone) return alert("Name and phone required");
-        const newId = Date.now() + Math.random();
-        const isPrimary = trustedContacts.length === 0; // first contact becomes primary
-        trustedContacts.push({ id: newId, name, phone, isPrimary });
-        saveData();
-        updateTrustedContactsUI();
-        addLogEntry(`➕ Added trusted contact: ${name} (${phone})`);
-        addBroadcastMsg(`📞 New trusted contact: ${name}`);
-    }
+        // Update volunteer UI + map markers
+        function updateVolunteersUIAndMap() {
+            if (!currentLat || !currentLng) return;
+            // Remove old markers
+            volunteerMarkers.forEach(marker => map.removeLayer(marker));
+            volunteerMarkers = [];
 
-    function addVolunteer(name, phone, lat, lng) {
-        if (!name || !phone || isNaN(lat) || isNaN(lng)) return alert("All fields required (lat/lng numbers)");
-        const newId = Date.now() + Math.random();
-        volunteers.push({ id: newId, name, phone, lat: parseFloat(lat), lng: parseFloat(lng) });
-        saveData();
-        updateVolunteersUIAndMap();
-        addLogEntry(`➕ Added volunteer: ${name} at (${lat},${lng})`);
-        addBroadcastMsg(`🧑‍🤝‍🧑 New volunteer: ${name}`);
-    }
+            const volunteersWithDist = volunteers.map(v => {
+                const dist = getDistanceFromLatLon(currentLat, currentLng, v.lat, v.lng);
+                return { ...v, distance: dist };
+            }).sort((a, b) => a.distance - b.distance);
 
-    function addAuthority(name, phone, description) {
-        if (!name || !phone) return alert("Name and phone required");
-        const newId = Date.now() + Math.random();
-        authorities.push({ id: newId, name, phone, description: description || "" });
-        saveData();
-        updateAuthoritiesUI();
-        addLogEntry(`➕ Added authority: ${name} (${phone})`);
-        addBroadcastMsg(`🏛️ New authority: ${name}`);
-    }
-
-    function deleteItem(type, id) {
-        if (type === "contact") {
-            trustedContacts = trustedContacts.filter(c => c.id != id);
-            // if we deleted the primary, set a new primary if any left
-            if (!trustedContacts.some(c => c.isPrimary) && trustedContacts.length > 0) {
-                trustedContacts[0].isPrimary = true;
-            }
-        } else if (type === "volunteer") {
-            volunteers = volunteers.filter(v => v.id != id);
-            updateVolunteersUIAndMap();
-        } else if (type === "authority") {
-            authorities = authorities.filter(a => a.id != id);
-            updateAuthoritiesUI();
-        }
-        saveData();
-        updateTrustedContactsUI(); // in case contact list changed
-        addLogEntry(`🗑️ Deleted ${type} with ID ${id}`);
-        addBroadcastMsg(`❌ Removed a ${type}`);
-    }
-
-    function setPrimaryContact(id) {
-        trustedContacts.forEach(c => c.isPrimary = (c.id == id));
-        saveData();
-        updateTrustedContactsUI();
-        addLogEntry(`⭐ Set primary contact to ${trustedContacts.find(c => c.isPrimary)?.name}`);
-        addBroadcastMsg(`⭐ Primary contact updated.`);
-    }
-
-    // Random volunteers generation (adds to existing list)
-    function generateAndAddRandomVolunteers() {
-        if (!currentLat || !currentLng) {
-            alert("Location not available. Please enable GPS first.");
-            return;
-        }
-        const newRandomVols = generateRandomVolunteers(currentLat, currentLng, 6);
-        volunteers.push(...newRandomVols);
-        saveData();
-        updateVolunteersUIAndMap();
-        addLogEntry(`🎲 Generated ${newRandomVols.length} random volunteers.`);
-        addBroadcastMsg(`🎲 Added ${newRandomVols.length} random volunteers.`);
-    }
-
-    // Use current location for adding volunteer
-    function useCurrentLocationForVolunteer() {
-        if (!currentLat || !currentLng) {
-            alert("Location not available. Enable GPS first.");
-            return;
-        }
-        document.getElementById("newVolLat").value = currentLat.toFixed(6);
-        document.getElementById("newVolLng").value = currentLng.toFixed(6);
-    }
-
-    // Helper functions: calls, SMS, logs, etc.
-    function initiateCall(phone, name, type) {
-        const telLink = `tel:${phone}`;
-        addLogEntry(`📞 Attempted call to ${name} (${phone}) - ${type}`);
-        addBroadcastMsg(`📞 Call initiated to ${name} (${phone})`);
-        alert(`📞 Call to ${name} at ${phone}\n(On mobile this would dial directly.)`);
-        window.open(telLink, '_blank');
-    }
-
-    function openSMSComposer(phone, name) {
-        if (!currentLat || !currentLng) {
-            alert("Location not available. Enable GPS first.");
-            return;
-        }
-        const googleMapsLink = `https://www.google.com/maps?q=${currentLat},${currentLng}`;
-        const locationStr = `Latitude: ${currentLat.toFixed(6)}, Longitude: ${currentLng.toFixed(6)}`;
-        const body = `🚨 Emergency! I need help. My live location: ${locationStr}. Maps link: ${googleMapsLink}`;
-        const smsUrl = `sms:${phone}?body=${encodeURIComponent(body)}`;
-        window.open(smsUrl, '_blank');
-        addLogEntry(`📱 SMS draft opened for ${name} (${phone}) with location: ${locationStr}`);
-        addBroadcastMsg(`📱 SMS draft opened for ${name} (${phone}) — tap Send.`);
-    }
-
-    async function sendTelegramMessage(lat, lng, mapsLink) {
-        const message = `🚨 *EMERGENCY SOS!*\n\nI need help. My current location:\n📍 Latitude: ${lat.toFixed(6)}\n📍 Longitude: ${lng.toFixed(6)}\n🗺️ [Open in Google Maps](${mapsLink})\n\nPlease assist immediately.`;
-        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-        const params = { chat_id: CHAT_ID, text: message, parse_mode: "Markdown" };
-        try {
-            const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(params) });
-            const result = await response.json();
-            if (result.ok) {
-                addBroadcastMsg(`✅ Telegram message sent successfully to chat ID ${CHAT_ID}`);
-                addLogEntry(`Telegram SOS message sent.`);
+            volunteerContainer.innerHTML = "";
+            if (volunteersWithDist.length === 0) {
+                volunteerContainer.innerHTML = "<li>No volunteers. Add some or generate random.</li>";
             } else {
-                addBroadcastMsg(`❌ Telegram error: ${result.description}`);
-                addLogEntry(`Telegram send failed: ${result.description}`);
+                volunteersWithDist.forEach(v => {
+                    const li = document.createElement("li");
+                    li.className = "volunteer-item";
+                    li.innerHTML = `
+                            <div class="vol-info">
+                                <strong>${v.name}</strong><br>
+                                <span style="font-size:0.7rem;"><i class="fas fa-phone-alt"></i> ${v.phone}</span>
+                                <span class="distance-badge">${v.distance.toFixed(2)} km</span>
+                            </div>
+                            <div>
+                                <button class="btn-call" data-phone="${v.phone}" data-name="${v.name}"><i class="fas fa-phone"></i> Call</button>
+                                <button class="btn-delete" data-id="${v.id}" data-type="volunteer"><i class="fas fa-trash"></i> Del</button>
+                            </div>
+                        `;
+                    volunteerContainer.appendChild(li);
+                    // Call button
+                    const callBtn = li.querySelector(".btn-call");
+                    callBtn.addEventListener("click", () => initiateCall(v.phone, v.name, "volunteer"));
+                    // Delete button
+                    const delBtn = li.querySelector(".btn-delete");
+                    delBtn.addEventListener("click", () => deleteItem("volunteer", v.id));
+
+                    // Add marker
+                    const marker = L.marker([v.lat, v.lng]).bindPopup(
+                        `🧑‍🤝‍🧑 <b>${v.name}</b><br>📞 ${v.phone}<br>🚶 ${v.distance.toFixed(2)} km away`);
+                    marker.addTo(map);
+                    volunteerMarkers.push(marker);
+                });
             }
-        } catch (error) {
-            addBroadcastMsg(`❌ Failed to send Telegram message: ${error.message}`);
-            addLogEntry(`Telegram send exception: ${error.message}`);
         }
-    }
 
-    function addLogEntry(message) {
-        const timestamp = new Date().toLocaleString();
-        logEntries.unshift({ time: timestamp, text: message });
-        if (logEntries.length > 80) logEntries.pop();
-        const logDiv = document.createElement("div");
-        logDiv.className = "log-entry";
-        logDiv.innerHTML = `<i class="fas fa-file-alt"></i> [${timestamp}] ${message}`;
-        logContainer.prepend(logDiv);
-        if (logContainer.children.length > 70) logContainer.removeChild(logContainer.lastChild);
-        localStorage.setItem("safety_logs", JSON.stringify(logEntries));
-    }
-
-    function addBroadcastMsg(msg) {
-        broadcastFeedMsgs.unshift({ msg, time: new Date().toLocaleTimeString() });
-        if (broadcastFeedMsgs.length > 20) broadcastFeedMsgs.pop();
-        const feedDiv = document.createElement("div");
-        feedDiv.className = "feed-msg";
-        feedDiv.innerHTML = `<i class="fas fa-bell"></i> ${msg} <span style="float:right; font-size:10px;">${new Date().toLocaleTimeString()}</span>`;
-        broadcastFeedDiv.prepend(feedDiv);
-        if (broadcastFeedDiv.children.length > 25) broadcastFeedDiv.removeChild(broadcastFeedDiv.lastChild);
-    }
-
-    // SOS with primary contact
-    async function triggerEmergencySOS() {
-        if (!currentLat || !currentLng) {
-            addBroadcastMsg("⚠️ Location not available. Attempting to fetch now...");
-            navigator.geolocation.getCurrentPosition(
-                (pos) => { currentLat = pos.coords.latitude; currentLng = pos.coords.longitude; updateMapAndUI(pos); performSOS(); },
-                (err) => { alert("Location unavailable. Enable GPS."); },
-                { enableHighAccuracy: true, timeout: 10000 }
-            );
-        } else {
-            performSOS();
-        }
-    }
-
-   async function performSOS() {
-    if (!currentLat || !currentLng) return;
-
-    const googleMapsLink =
-        `https://www.google.com/maps?q=${currentLat},${currentLng}`;
-
-    const locationStr =
-        `${currentLat.toFixed(6)}, ${currentLng.toFixed(6)}`;
-
-    modalLocationText.innerHTML = `
-        📍 Lat: ${currentLat.toFixed(6)}<br>
-        📍 Lng: ${currentLng.toFixed(6)}<br>
-        🔗 <a href="${googleMapsLink}" target="_blank">Open Maps</a>
-    `;
-
-    sosModal.classList.add("active");
-
-    addLogEntry(`🚨 SOS ACTIVATED! Location: ${locationStr}`);
-
-    addBroadcastMsg(
-        "🔥 SOS TRIGGERED! Sending Telegram and opening SMS."
-    );
-
-    // Send Telegram through Vercel backend
-    await sendTelegramMessage(
-        currentLat,
-        currentLng,
-        googleMapsLink
-    );
-
-    // SMS to primary contact
-    const primaryContact =
-        trustedContacts.find(c => c.isPrimary);
-
-    if (primaryContact) {
-        openSMSComposer(
-            primaryContact.phone,
-            primaryContact.name
-        );
-
-        addBroadcastMsg(
-            `📱 SMS draft opened for primary contact: ${primaryContact.name}`
-        );
-    } else {
-        addBroadcastMsg(
-            "⚠️ No primary contact set. No SMS opened."
-        );
-    }
-
-    // Simulated alerts
-    trustedContacts.forEach(c => {
-        if (c.id !== primaryContact?.id) {
-            addBroadcastMsg(
-                `📱 Alert simulated for ${c.name} (${c.phone})`
-            );
-        }
-    });
-
-    volunteers.forEach(v => {
-        addBroadcastMsg(
-            `🧑‍🚒 Volunteer ${v.name} notified (simulated).`
-        );
-    });
-
-    authorities.forEach(a => {
-        addBroadcastMsg(
-            `🏛️ ${a.name} alerted (simulated).`
-        );
-    });
-
-    if (userMarker) {
-        userMarker
-            .bindPopup(
-                `🚨 <b>SOS ACTIVE</b><br>${locationStr}`
-            )
-            .openPopup();
-    }
-
-    addBroadcastMsg("✅ Emergency broadcast complete.");
-    addLogEntry("SOS completed.");
-
-    setTimeout(() => {
-        alert(
-            `SOS sent!\nLocation: ${locationStr}\nTelegram message sent.`
-        );
-    }, 200);
-}
-    // Storage
-    function saveData() {
-        localStorage.setItem("trustedContacts", JSON.stringify(trustedContacts));
-        localStorage.setItem("volunteers", JSON.stringify(volunteers));
-        localStorage.setItem("authorities", JSON.stringify(authorities));
-    }
-
-    function loadData() {
-        const storedContacts = localStorage.getItem("trustedContacts");
-        if (storedContacts) trustedContacts = JSON.parse(storedContacts);
-        else {
-            // default contacts (mother as primary)
-            trustedContacts = [
-                { id: 1, name: "👩 Mother", phone: "8778790503", isPrimary: true },
-                { id: 2, name: "👭 Best Friend", phone: "+91 99887 66550", isPrimary: false },
-                { id: 3, name: "👨 Brother", phone: "+91 87654 32109", isPrimary: false }
-            ];
-        }
-        const storedVols = localStorage.getItem("volunteers");
-        if (storedVols) volunteers = JSON.parse(storedVols);
-        else volunteers = [];
-        const storedAuth = localStorage.getItem("authorities");
-        if (storedAuth) authorities = JSON.parse(storedAuth);
-        else {
-            authorities = [
-                { id: 1, name: "🚔 Police Control Room", phone: "100", description: "National Emergency" },
-                { id: 2, name: "👩‍⚖️ Women Helpline", phone: "1091", description: "Women in Distress" },
-                { id: 3, name: "🚑 Ambulance", phone: "102", description: "Medical Emergency" }
-            ];
-        }
-    }
-
-    // Map & location
-    function updateMapAndUI(position) {
-        const { latitude, longitude, accuracy } = position.coords;
-        currentLat = latitude;
-        currentLng = longitude;
-        const timestamp = new Date().toLocaleTimeString();
-        liveLatLngSpan.innerHTML = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
-        locTimeSpan.innerHTML = timestamp;
-        accuracySpan.innerHTML = Math.round(accuracy);
-        locStatusIcon.innerHTML = `<i class="fas fa-check-circle"></i> Location Active`;
-        if (userMarker) map.removeLayer(userMarker);
-        userMarker = L.marker([latitude, longitude], { icon: L.divIcon({html: '<i class="fas fa-female" style="font-size:26px;color:#ff3366;"></i>', className: 'custom-div-icon', iconSize: [30,30]}) }).addTo(map);
-        userMarker.bindPopup(`<b>You are here</b>`).openPopup();
-        map.setView([latitude, longitude], 15);
-        updateVolunteersUIAndMap();
-        addLogEntry(`📍 Location acquired: ${latitude.toFixed(6)}, ${longitude.toFixed(6)}`);
-        addBroadcastMsg(`🟢 Location enabled.`);
-    }
-
-    function initMap() {
-        map = L.map('map').setView([20.5937, 78.9629], 5);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; OSM & CartoDB', subdomains: 'abcd', maxZoom: 19 }).addTo(map);
-    }
-
-    function requestLocation() {
-        if (!navigator.geolocation) return alert("Geolocation not supported");
-        locStatusIcon.innerHTML = `<i class="fas fa-spinner fa-pulse"></i> Requesting...`;
-        navigator.geolocation.getCurrentPosition(
-            (pos) => {
-                updateMapAndUI(pos);
-                if (watchId) navigator.geolocation.clearWatch(watchId);
-                watchId = navigator.geolocation.watchPosition(updateMapAndUI, (err) => { console.error(err); }, { enableHighAccuracy: true, maximumAge: 5000, timeout: 10000 });
-            },
-            (err) => { alert("Location denied."); locStatusIcon.innerHTML = `<i class="fas fa-ban"></i> Denied`; },
-            { enableHighAccuracy: true, timeout: 10000 }
-        );
-    }
-
-    // Event listeners for add buttons
-    document.getElementById("addContactBtn").addEventListener("click", () => {
-        addTrustedContact(document.getElementById("newContactName").value, document.getElementById("newContactPhone").value);
-        document.getElementById("newContactName").value = "";
-        document.getElementById("newContactPhone").value = "";
-    });
-    document.getElementById("addVolunteerBtn").addEventListener("click", () => {
-        addVolunteer(
-            document.getElementById("newVolName").value,
-            document.getElementById("newVolPhone").value,
-            document.getElementById("newVolLat").value,
-            document.getElementById("newVolLng").value
-        );
-        document.getElementById("newVolName").value = "";
-        document.getElementById("newVolPhone").value = "";
-        document.getElementById("newVolLat").value = "";
-        document.getElementById("newVolLng").value = "";
-    });
-    document.getElementById("useCurrentLocVol").addEventListener("click", useCurrentLocationForVolunteer);
-    document.getElementById("addAuthorityBtn").addEventListener("click", () => {
-        addAuthority(
-            document.getElementById("newAuthName").value,
-            document.getElementById("newAuthPhone").value,
-            document.getElementById("newAuthDesc").value
-        );
-        document.getElementById("newAuthName").value = "";
-        document.getElementById("newAuthPhone").value = "";
-        document.getElementById("newAuthDesc").value = "";
-    });
-    refreshVolBtn.addEventListener("click", generateAndAddRandomVolunteers);
-    panicBtn.addEventListener("click", triggerEmergencySOS);
-    exportBtn.addEventListener("click", () => {
-        let content = "==== Smart Safety Network Log ====\n";
-        logEntries.forEach(e => content += `[${e.time}] ${e.text}\n`);
-        const blob = new Blob([content], { type: "text/plain" });
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = `safety_log_${Date.now()}.log`;
-        a.click();
-        URL.revokeObjectURL(a.href);
-    });
-    clearLogBtn.addEventListener("click", () => { logEntries = []; localStorage.removeItem("safety_logs"); logContainer.innerHTML = '<div class="log-entry">Logs cleared.</div>'; });
-    requestLocationBtn.addEventListener("click", requestLocation);
-    closeModalBtn.addEventListener("click", () => sosModal.classList.remove("active"));
-
-    function loadStoredLogs() {
-        const stored = localStorage.getItem("safety_logs");
-        if (stored) {
-            logEntries = JSON.parse(stored);
-            logContainer.innerHTML = "";
-            logEntries.forEach(entry => {
-                const div = document.createElement("div");
-                div.className = "log-entry";
-                div.innerHTML = `<i class="fas fa-file-alt"></i> [${entry.time}] ${entry.text}`;
-                logContainer.appendChild(div);
+        // Update trusted contacts UI
+        function updateTrustedContactsUI() {
+            trustedContainer.innerHTML = "";
+            if (trustedContacts.length === 0) {
+                trustedContainer.innerHTML = "<li>No contacts. Add a trusted contact.</li>";
+            }
+            trustedContacts.forEach(contact => {
+                const li = document.createElement("li");
+                li.className = "contact-item";
+                li.innerHTML = `
+                        <div class="contact-info">
+                            ${contact.isPrimary ? '<i class="fas fa-star primary-star"></i>' : ''}
+                            <strong>${contact.name}</strong><br>${contact.phone}
+                        </div>
+                        <div>
+                            <button class="btn-call" data-phone="${contact.phone}" data-name="${contact.name}"><i class="fas fa-phone"></i> Call</button>
+                            <button class="btn-sms" data-phone="${contact.phone}" data-name="${contact.name}"><i class="fas fa-envelope"></i> Send Location</button>
+                            ${!contact.isPrimary ? `<button class="btn-set-primary" data-id="${contact.id}"><i class="fas fa-star"></i> Set Primary</button>` : ''}
+                            <button class="btn-delete" data-id="${contact.id}" data-type="contact"><i class="fas fa-trash"></i> Del</button>
+                        </div>
+                    `;
+                trustedContainer.appendChild(li);
+                // Call
+                li.querySelector(".btn-call")?.addEventListener("click", () => initiateCall(contact.phone, contact
+                .name, "trusted"));
+                // Send Location SMS
+                li.querySelector(".btn-sms")?.addEventListener("click", () => openSMSComposer(contact.phone, contact
+                    .name));
+                // Set primary
+                const setPrimaryBtn = li.querySelector(".btn-set-primary");
+                if (setPrimaryBtn) {
+                    setPrimaryBtn.addEventListener("click", () => setPrimaryContact(contact.id));
+                }
+                // Delete
+                li.querySelector(".btn-delete")?.addEventListener("click", () => deleteItem("contact", contact.id));
             });
         }
-    }
 
-    function startApp() {
-        loadData();
-        loadStoredLogs();
-        initMap();
-        updateTrustedContactsUI();
-        updateVolunteersUIAndMap();
-        updateAuthoritiesUI();
-        addBroadcastMsg("🟢 System ready. Enable location and manage contacts.");
-    }
-    startApp();
-</script>
+        // Update authorities UI
+        function updateAuthoritiesUI() {
+            authoritiesContainer.innerHTML = "";
+            if (authorities.length === 0) {
+                authoritiesContainer.innerHTML = "<li>No authorities. Add one.</li>";
+            }
+            authorities.forEach(auth => {
+                const li = document.createElement("li");
+                li.className = "authority-item";
+                li.innerHTML = `
+                        <div class="auth-info">
+                            <strong>${auth.name}</strong><br>${auth.description ? auth.description + " | " : ""}${auth.phone}
+                        </div>
+                        <div>
+                            <button class="btn-call" data-phone="${auth.phone}" data-name="${auth.name}"><i class="fas fa-phone"></i> Call</button>
+                            <button class="btn-delete" data-id="${auth.id}" data-type="authority"><i class="fas fa-trash"></i> Del</button>
+                        </div>
+                    `;
+                authoritiesContainer.appendChild(li);
+                li.querySelector(".btn-call")?.addEventListener("click", () => initiateCall(auth.phone, auth.name,
+                    "authority"));
+                li.querySelector(".btn-delete")?.addEventListener("click", () => deleteItem("authority", auth.id));
+            });
+        }
+
+        // CRUD operations
+        function addTrustedContact(name, phone) {
+            if (!name || !phone) return alert("Name and phone required");
+            const newId = Date.now() + Math.random();
+            const isPrimary = trustedContacts.length === 0; // first contact becomes primary
+            trustedContacts.push({ id: newId, name, phone, isPrimary });
+            saveData();
+            updateTrustedContactsUI();
+            addLogEntry(`➕ Added trusted contact: ${name} (${phone})`);
+            addBroadcastMsg(`📞 New trusted contact: ${name}`);
+        }
+
+        function addVolunteer(name, phone, lat, lng) {
+            if (!name || !phone || isNaN(lat) || isNaN(lng)) return alert("All fields required (lat/lng numbers)");
+            const newId = Date.now() + Math.random();
+            volunteers.push({ id: newId, name, phone, lat: parseFloat(lat), lng: parseFloat(lng) });
+            saveData();
+            updateVolunteersUIAndMap();
+            addLogEntry(`➕ Added volunteer: ${name} at (${lat},${lng})`);
+            addBroadcastMsg(`🧑‍🤝‍🧑 New volunteer: ${name}`);
+        }
+
+        function addAuthority(name, phone, description) {
+            if (!name || !phone) return alert("Name and phone required");
+            const newId = Date.now() + Math.random();
+            authorities.push({ id: newId, name, phone, description: description || "" });
+            saveData();
+            updateAuthoritiesUI();
+            addLogEntry(`➕ Added authority: ${name} (${phone})`);
+            addBroadcastMsg(`🏛️ New authority: ${name}`);
+        }
+
+        function deleteItem(type, id) {
+            if (type === "contact") {
+                trustedContacts = trustedContacts.filter(c => c.id != id);
+                // if we deleted the primary, set a new primary if any left
+                if (!trustedContacts.some(c => c.isPrimary) && trustedContacts.length > 0) {
+                    trustedContacts[0].isPrimary = true;
+                }
+            } else if (type === "volunteer") {
+                volunteers = volunteers.filter(v => v.id != id);
+                updateVolunteersUIAndMap();
+            } else if (type === "authority") {
+                authorities = authorities.filter(a => a.id != id);
+                updateAuthoritiesUI();
+            }
+            saveData();
+            updateTrustedContactsUI(); // in case contact list changed
+            addLogEntry(`🗑️ Deleted ${type} with ID ${id}`);
+            addBroadcastMsg(`❌ Removed a ${type}`);
+        }
+
+        function setPrimaryContact(id) {
+            trustedContacts.forEach(c => c.isPrimary = (c.id == id));
+            saveData();
+            updateTrustedContactsUI();
+            addLogEntry(`⭐ Set primary contact to ${trustedContacts.find(c => c.isPrimary)?.name}`);
+            addBroadcastMsg(`⭐ Primary contact updated.`);
+        }
+
+        // Random volunteers generation (adds to existing list)
+        function generateAndAddRandomVolunteers() {
+            if (!currentLat || !currentLng) {
+                alert("Location not available. Please enable GPS first.");
+                return;
+            }
+            const newRandomVols = generateRandomVolunteers(currentLat, currentLng, 6);
+            volunteers.push(...newRandomVols);
+            saveData();
+            updateVolunteersUIAndMap();
+            addLogEntry(`🎲 Generated ${newRandomVols.length} random volunteers.`);
+            addBroadcastMsg(`🎲 Added ${newRandomVols.length} random volunteers.`);
+        }
+
+        // Use current location for adding volunteer
+        function useCurrentLocationForVolunteer() {
+            if (!currentLat || !currentLng) {
+                alert("Location not available. Enable GPS first.");
+                return;
+            }
+            document.getElementById("newVolLat").value = currentLat.toFixed(6);
+            document.getElementById("newVolLng").value = currentLng.toFixed(6);
+        }
+
+        // Helper functions: calls, SMS, logs, etc.
+        function initiateCall(phone, name, type) {
+            const telLink = `tel:${phone}`;
+            addLogEntry(`📞 Attempted call to ${name} (${phone}) - ${type}`);
+            addBroadcastMsg(`📞 Call initiated to ${name} (${phone})`);
+            alert(`📞 Call to ${name} at ${phone}\n(On mobile this would dial directly.)`);
+            window.open(telLink, '_blank');
+        }
+
+        function openSMSComposer(phone, name) {
+            if (!currentLat || !currentLng) {
+                alert("Location not available. Enable GPS first.");
+                return;
+            }
+            const googleMapsLink = `https://www.google.com/maps?q=${currentLat},${currentLng}`;
+            const locationStr = `Latitude: ${currentLat.toFixed(6)}, Longitude: ${currentLng.toFixed(6)}`;
+            const body = `🚨 Emergency! I need help. My live location: ${locationStr}. Maps link: ${googleMapsLink}`;
+            const smsUrl = `sms:${phone}?body=${encodeURIComponent(body)}`;
+            window.open(smsUrl, '_blank');
+            addLogEntry(`📱 SMS draft opened for ${name} (${phone}) with location: ${locationStr}`);
+            addBroadcastMsg(`📱 SMS draft opened for ${name} (${phone}) — tap Send.`);
+        }
+
+        function addLogEntry(message) {
+            const timestamp = new Date().toLocaleString();
+            logEntries.unshift({ time: timestamp, text: message });
+            if (logEntries.length > 80) logEntries.pop();
+            const logDiv = document.createElement("div");
+            logDiv.className = "log-entry";
+            logDiv.innerHTML = `<i class="fas fa-file-alt"></i> [${timestamp}] ${message}`;
+            logContainer.prepend(logDiv);
+            if (logContainer.children.length > 70) logContainer.removeChild(logContainer.lastChild);
+            localStorage.setItem("safety_logs", JSON.stringify(logEntries));
+        }
+
+        function addBroadcastMsg(msg) {
+            broadcastFeedMsgs.unshift({ msg, time: new Date().toLocaleTimeString() });
+            if (broadcastFeedMsgs.length > 20) broadcastFeedMsgs.pop();
+            const feedDiv = document.createElement("div");
+            feedDiv.className = "feed-msg";
+            feedDiv.innerHTML =
+                `<i class="fas fa-bell"></i> ${msg} <span style="float:right; font-size:10px;">${new Date().toLocaleTimeString()}</span>`;
+            broadcastFeedDiv.prepend(feedDiv);
+            if (broadcastFeedDiv.children.length > 25) broadcastFeedDiv.removeChild(broadcastFeedDiv.lastChild);
+        }
+
+        // SOS with primary contact
+        async function triggerEmergencySOS() {
+            if (!currentLat || !currentLng) {
+                addBroadcastMsg("⚠️ Location not available. Attempting to fetch now...");
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => {
+                        currentLat = pos.coords.latitude;
+                        currentLng = pos.coords.longitude;
+                        updateMapAndUI(pos);
+                        performSOS();
+                    },
+                    (err) => { alert("Location unavailable. Enable GPS."); }, { enableHighAccuracy: true, timeout: 10000 }
+                );
+            } else {
+                performSOS();
+            }
+        }
+
+        async function performSOS() {
+            if (!currentLat || !currentLng) return;
+
+            const googleMapsLink = `https://www.google.com/maps?q=${currentLat},${currentLng}`;
+            const locationStr = `${currentLat.toFixed(6)}, ${currentLng.toFixed(6)}`;
+
+            modalLocationText.innerHTML = `
+                    📍 Lat: ${currentLat.toFixed(6)}<br>
+                    📍 Lng: ${currentLng.toFixed(6)}<br>
+                    🔗 <a href="${googleMapsLink}" target="_blank">Open Maps</a>
+                `;
+
+            sosModal.classList.add("active");
+
+            addLogEntry(`🚨 SOS ACTIVATED! Location: ${locationStr}`);
+            addBroadcastMsg("🔥 SOS TRIGGERED! Opening SMS and alerting all contacts.");
+
+            // SMS to primary contact
+            const primaryContact = trustedContacts.find(c => c.isPrimary);
+
+            if (primaryContact) {
+                openSMSComposer(primaryContact.phone, primaryContact.name);
+                addBroadcastMsg(`📱 SMS draft opened for primary contact: ${primaryContact.name}`);
+            } else {
+                addBroadcastMsg("⚠️ No primary contact set. No SMS opened.");
+            }
+
+            // Simulated alerts
+            trustedContacts.forEach(c => {
+                if (c.id !== primaryContact?.id) {
+                    addBroadcastMsg(`📱 Alert simulated for ${c.name} (${c.phone})`);
+                }
+            });
+
+            volunteers.forEach(v => {
+                addBroadcastMsg(`🧑‍🚒 Volunteer ${v.name} notified (simulated).`);
+            });
+
+            authorities.forEach(a => {
+                addBroadcastMsg(`🏛️ ${a.name} alerted (simulated).`);
+            });
+
+            if (userMarker) {
+                userMarker
+                    .bindPopup(`🚨 <b>SOS ACTIVE</b><br>${locationStr}`)
+                    .openPopup();
+            }
+
+            addBroadcastMsg("✅ Emergency broadcast complete.");
+            addLogEntry("SOS completed.");
+
+            setTimeout(() => {
+                alert(`SOS sent!\nLocation: ${locationStr}`);
+            }, 200);
+        }
+
+        // Storage
+        function saveData() {
+            localStorage.setItem("trustedContacts", JSON.stringify(trustedContacts));
+            localStorage.setItem("volunteers", JSON.stringify(volunteers));
+            localStorage.setItem("authorities", JSON.stringify(authorities));
+        }
+
+        function loadData() {
+            const storedContacts = localStorage.getItem("trustedContacts");
+            if (storedContacts) trustedContacts = JSON.parse(storedContacts);
+            else {
+                // default contacts (mother as primary)
+                trustedContacts = [
+                    { id: 1, name: "👩 Mother", phone: "8778790503", isPrimary: true },
+                    { id: 2, name: "👭 Best Friend", phone: "+91 99887 66550", isPrimary: false },
+                    { id: 3, name: "👨 Brother", phone: "+91 87654 32109", isPrimary: false }
+                ];
+            }
+            const storedVols = localStorage.getItem("volunteers");
+            if (storedVols) volunteers = JSON.parse(storedVols);
+            else volunteers = [];
+            const storedAuth = localStorage.getItem("authorities");
+            if (storedAuth) authorities = JSON.parse(storedAuth);
+            else {
+                authorities = [
+                    { id: 1, name: "🚔 Police Control Room", phone: "100", description: "National Emergency" },
+                    { id: 2, name: "👩‍⚖️ Women Helpline", phone: "1091", description: "Women in Distress" },
+                    { id: 3, name: "🚑 Ambulance", phone: "102", description: "Medical Emergency" }
+                ];
+            }
+        }
+
+        // Map & location
+        function updateMapAndUI(position) {
+            const { latitude, longitude, accuracy } = position.coords;
+            currentLat = latitude;
+            currentLng = longitude;
+            const timestamp = new Date().toLocaleTimeString();
+            liveLatLngSpan.innerHTML = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+            locTimeSpan.innerHTML = timestamp;
+            accuracySpan.innerHTML = Math.round(accuracy);
+            locStatusIcon.innerHTML = `<i class="fas fa-check-circle"></i> Location Active`;
+            if (userMarker) map.removeLayer(userMarker);
+            userMarker = L.marker([latitude, longitude], {
+                icon: L.divIcon({
+                    html: '<i class="fas fa-female" style="font-size:26px;color:#ff3366;"></i>',
+                    className: 'custom-div-icon',
+                    iconSize: [30, 30]
+                })
+            }).addTo(map);
+            userMarker.bindPopup(`<b>You are here</b>`).openPopup();
+            map.setView([latitude, longitude], 15);
+            updateVolunteersUIAndMap();
+            addLogEntry(`📍 Location acquired: ${latitude.toFixed(6)}, ${longitude.toFixed(6)}`);
+            addBroadcastMsg(`🟢 Location enabled.`);
+        }
+
+        function initMap() {
+            map = L.map('map').setView([20.5937, 78.9629], 5);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; OSM & CartoDB',
+                subdomains: 'abcd',
+                maxZoom: 19
+            }).addTo(map);
+        }
+
+        function requestLocation() {
+            if (!navigator.geolocation) return alert("Geolocation not supported");
+            locStatusIcon.innerHTML = `<i class="fas fa-spinner fa-pulse"></i> Requesting...`;
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    updateMapAndUI(pos);
+                    if (watchId) navigator.geolocation.clearWatch(watchId);
+                    watchId = navigator.geolocation.watchPosition(updateMapAndUI, (err) => { console.error(err); }, {
+                        enableHighAccuracy: true,
+                        maximumAge: 5000,
+                        timeout: 10000
+                    });
+                },
+                (err) => { alert("Location denied.");
+                    locStatusIcon.innerHTML = `<i class="fas fa-ban"></i> Denied`; }, { enableHighAccuracy: true,
+                    timeout: 10000 }
+            );
+        }
+
+        // Event listeners for add buttons
+        document.getElementById("addContactBtn").addEventListener("click", () => {
+            addTrustedContact(document.getElementById("newContactName").value, document.getElementById("newContactPhone")
+                .value);
+            document.getElementById("newContactName").value = "";
+            document.getElementById("newContactPhone").value = "";
+        });
+        document.getElementById("addVolunteerBtn").addEventListener("click", () => {
+            addVolunteer(
+                document.getElementById("newVolName").value,
+                document.getElementById("newVolPhone").value,
+                document.getElementById("newVolLat").value,
+                document.getElementById("newVolLng").value
+            );
+            document.getElementById("newVolName").value = "";
+            document.getElementById("newVolPhone").value = "";
+            document.getElementById("newVolLat").value = "";
+            document.getElementById("newVolLng").value = "";
+        });
+        document.getElementById("useCurrentLocVol").addEventListener("click", useCurrentLocationForVolunteer);
+        document.getElementById("addAuthorityBtn").addEventListener("click", () => {
+            addAuthority(
+                document.getElementById("newAuthName").value,
+                document.getElementById("newAuthPhone").value,
+                document.getElementById("newAuthDesc").value
+            );
+            document.getElementById("newAuthName").value = "";
+            document.getElementById("newAuthPhone").value = "";
+            document.getElementById("newAuthDesc").value = "";
+        });
+        refreshVolBtn.addEventListener("click", generateAndAddRandomVolunteers);
+        panicBtn.addEventListener("click", triggerEmergencySOS);
+        exportBtn.addEventListener("click", () => {
+            let content = "==== Smart Safety Network Log ====\n";
+            logEntries.forEach(e => content += `[${e.time}] ${e.text}\n`);
+            const blob = new Blob([content], { type: "text/plain" });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = `safety_log_${Date.now()}.log`;
+            a.click();
+            URL.revokeObjectURL(a.href);
+        });
+        clearLogBtn.addEventListener("click", () => {
+            logEntries = [];
+            localStorage.removeItem("safety_logs");
+            logContainer.innerHTML = '<div class="log-entry">Logs cleared.</div>';
+        });
+        requestLocationBtn.addEventListener("click", requestLocation);
+        closeModalBtn.addEventListener("click", () => sosModal.classList.remove("active"));
+
+        function loadStoredLogs() {
+            const stored = localStorage.getItem("safety_logs");
+            if (stored) {
+                logEntries = JSON.parse(stored);
+                logContainer.innerHTML = "";
+                logEntries.forEach(entry => {
+                    const div = document.createElement("div");
+                    div.className = "log-entry";
+                    div.innerHTML = `<i class="fas fa-file-alt"></i> [${entry.time}] ${entry.text}`;
+                    logContainer.appendChild(div);
+                });
+            }
+        }
+
+        function startApp() {
+            loadData();
+            loadStoredLogs();
+            initMap();
+            updateTrustedContactsUI();
+            updateVolunteersUIAndMap();
+            updateAuthoritiesUI();
+            addBroadcastMsg("🟢 System ready. Enable location and manage contacts.");
+        }
+        startApp();
+    </script>
 </body>
 </html>
