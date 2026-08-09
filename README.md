@@ -340,7 +340,6 @@ LinkedIn:
 https://linkedin.com/in/m-thanusha-muthu-7600972a0
 
 ---
-
 ## 📄 License
 
 This project is licensed under the MIT License.
